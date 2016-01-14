@@ -15,13 +15,12 @@ upstream {{ $host }} {
 }
 {{ end }}
 server {
-  server_name {{ $.Env.SERVER_NAME }};
+  location / {
+    proxy_pass {{ $.Env.DEFAULT_PROXY_PASS }};
+  }
   {{ range $path, $containers := groupByMulti $ "Env.PROXY_PATH" "," }}{{ $host := replace $path "/" "_" -1 }}
   location /{{ $path }}/ {
     proxy_pass http://{{ $host }}/;
   }
   {{ end }}
-  location / {
-    proxy_pass {{ $.Env.DEFAULT_PROXY_PASS }}/;
-  }
 }
