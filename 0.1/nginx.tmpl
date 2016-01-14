@@ -16,7 +16,7 @@ upstream {{ $host }} {
 {{ end }}
 server {
   location / {
-    proxy_pass {{ $.Env.DEFAULT_PROXY_PASS }};
+    proxy_pass {{ $.Env.DEFAULT_LOCATION }};
   }
   {{ range $path, $containers := groupByMulti $ "Env.PROXY_PATH" "," }}{{ $host := replace $path "/" "_" -1 }}
   location /{{ $path }}/ {
