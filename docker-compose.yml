@@ -1,12 +1,16 @@
-proxy:
-  image: 'krmcbride/proxy:0.1'
-  ports:
-  - '0.0.0.0:80:80'
-  environment:
-    DEFAULT_LOCATION: 'http://www.google.com:80' # Don't forget the port.
-  volumes:
-  - '/var/run/docker.sock:/tmp/docker.sock:ro'
-app:
-  image: 'krmcbride/nginx:1.9'
-  environment:
-    PROXY_PATH: foo # This will show the nginx welcome page at /foo
+version: '2'
+services:
+  proxy:
+    image: 'krmcbride/proxy:0.2'
+    ports:
+    - '80:80'
+    volumes:
+    - '/var/run/docker.sock:/tmp/docker.sock:ro'
+  foo:
+    image: 'krmcbride/nginx:1.11'
+    environment:
+      PROXY_PATH: foo
+  bar:
+    image: 'krmcbride/nginx:1.11'
+    environment:
+      PROXY_PATH: bar
