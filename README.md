@@ -7,7 +7,7 @@ This image extends [docker-nginx](https://github.com/krmcbride/docker-nginx) wit
 The docker-compose.yml file in this repo can be used to test things out.  Running `docker-compose up -d` will start the proxy plus a few simple nginx containers named `foo`, `bar` and `baz`.  Each has a `PROXY_PATH` environment variable set to `foo:/`, `bar` and `baz` respectively.  If the value of the `PROXY_PATH` variable does not include a `:`, it is used as both the upstream name and location path (wrapped with `/`).  Otherwise, the first part before the `:` is used as the upstream name
 and the second part after the `:` is used as the location path (as-is, without being wrapped with `/`).
 
-The generated server config initially looks like:
+The generated server config initially looks like (lightly edited to improve readibility):
 
 ```
 upstream foo {
@@ -36,19 +36,19 @@ If we scale the number of containers with `docker-compose scale foo=2 bar=3 baz=
 
 ```
 upstream foo {
-  server 172.18.0.5:80;
   server 172.18.0.3:80;
+  server 172.18.0.6:80;
 }
 upstream bar {
-  server 172.18.0.7:80;
-  server 172.18.0.6:80;
   server 172.18.0.4:80;
+  server 172.18.0.7:80;
+  server 172.18.0.8:80;
 }
 upstream baz {
-  server 172.18.0.11:80;
-  server 172.18.0.10:80;
+  server 172.18.0.5:80;
   server 172.18.0.9:80;
-  server 172.18.0.8:80;
+  server 172.18.0.10:80;
+  server 172.18.0.11:80;
 }
 server {
   location / {
